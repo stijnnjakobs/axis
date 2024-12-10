@@ -80,14 +80,15 @@
                                         </div>
                                     </div>
                                 @else
-                                    <div class="card-inner">
-                                        <div class="nk-empty">
-                                            <h5 class="nk-empty-title">{{ __('No Invoices Found') }}</h5>
-                                            <p class="nk-empty-text">
-                                                {{ __('You don\'t have any invoices yet.') }}
-                                            </p>
+
+                                        <div class="card-inner">
+                                            <div class="nk-empty">
+                                                <p class="text-center nk-empty-text w-50 mx-auto">
+                                                    {{ __('You don\'t have any invoices yet.') }}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
+
                                 @endif
                             </div>
                         </div>
