@@ -5,24 +5,9 @@
                 <div class="nk-content-body">
                     <div class="nk-block-head">
                         <div class="nk-block-head-content">
-                            <div class="nk-block-head-sub"><span>{{ __('Overview') }}</span></div>
-                            <div class="nk-block-between-md g-4">
-                                <div class="nk-block-head-content">
-                                    <h2 class="nk-block-title fw-normal">{{ __('Active Services') }}</h2>
-                                    <div class="nk-block-des">
-                                        <p>{{ __('Manage your active services and subscriptions.') }}</p>
-                                    </div>
-                                </div>
-                                <div class="nk-block-head-content">
-                                    <ul class="nk-block-tools gx-3">
-                                        <li>
-                                            <a href="{{ route('clients.home') }}" class="btn btn-white btn-light">
-                                                <em class="icon ni ni-plus"></em>
-                                                <span>{{ __('Order New Service') }}</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <h3 class="nk-block-title page-title">{{ __('My Services') }}</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>{{ __('Manage your active services and subscriptions') }}</p>
                             </div>
                         </div>
                     </div>
