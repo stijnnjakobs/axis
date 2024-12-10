@@ -198,18 +198,9 @@
                                 @else
                                     <div class="card-inner">
                                         <div class="nk-empty">
-                                            <div class="nk-empty-img">
-                                                <em class="icon ni ni-ticket-alt"></em>
-                                            </div>
-                                            <h5 class="nk-empty-title">{{ __('No Tickets Found') }}</h5>
-                                            <p class="nk-empty-text w-50 mx-auto">
+                                            <p class="text-center nk-empty-text w-50 mx-auto">
                                                 {{ __('You haven\'t created any support tickets yet. Need help? Create a new ticket and our support team will assist you.') }}
                                             </p>
-                                            <a href="{{ route('clients.tickets.create') }}" 
-                                               class="btn btn-primary">
-                                                <em class="icon ni ni-plus"></em>
-                                                <span>{{ __('Create New Ticket') }}</span>
-                                            </a>
                                         </div>
                                     </div>
                                 @endif
