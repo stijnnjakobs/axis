@@ -138,17 +138,9 @@
                             <div class="card card-bordered">
                                 <div class="card-inner">
                                     <div class="nk-empty">
-                                        <div class="nk-empty-img">
-                                            <em class="icon ni ni-servers fs-40px text-primary"></em>
-                                        </div>
-                                        <h5 class="nk-empty-title">{{ __('No Services Found') }}</h5>
-                                        <p class="nk-empty-text w-50 mx-auto">
-                                            {{ __('You haven\'t purchased any services yet. Start exploring our offerings!') }}
+                                        <p class="text-center nk-empty-text w-50 mx-auto">
+                                            {{ __('You haven\'t purchased any services yet. Start exploring our offerings.') }}
                                         </p>
-                                        <a href="{{ route('clients.home') }}" class="btn btn-primary">
-                                            <em class="icon ni ni-plus"></em>
-                                            <span>{{ __('Order New Service') }}</span>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
