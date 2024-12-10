@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Helpers\ExtensionHelper;
+use App\Models\Announcement;
 use App\Models\Order;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -25,12 +26,13 @@ class HomeController extends Controller
             ->with(['products', 'products.product'])
             ->latest()
             ->get();
+        $announcements = Announcement::where('published', 1)->get();
 
         // Tel actieve producten
         $activeProductsCount = $services->sum(function($service) {
             return $service->products->where('status', 'paid')->count();
         });
-        return view('clients.home', compact('services', 'invoices', 'activeProductsCount'));
+        return view('clients.home', compact('services', 'announcements', 'invoices', 'activeProductsCount'));
     }
 
     /**

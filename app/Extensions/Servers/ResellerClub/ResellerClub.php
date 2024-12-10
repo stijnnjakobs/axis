@@ -14,37 +14,10 @@ class ResellerClub extends Server
     public function getMetadata()
     {
         return [
-            'display_name' => 'ResellerClub',
+            'display_name' => 'ResellerClub Domain API',
             'version' => '1.0.0',
-            'author' => 'Paymenter',
-            'website' => 'https://paymenter.org',
-        ];
-    }
-
-    public function getConfig()
-    {
-        return [
-            [
-                'name' => 'reseller_id',
-                'friendlyName' => 'Reseller ID',
-                'type' => 'text',
-                'required' => true,
-                'description' => 'Your ResellerClub Reseller ID'
-            ],
-            [
-                'name' => 'api_key',
-                'friendlyName' => 'API Key',
-                'type' => 'password',
-                'required' => true,
-                'description' => 'Your ResellerClub API Key'
-            ],
-            [
-                'name' => 'test_mode',
-                'friendlyName' => 'Test Mode',
-                'type' => 'boolean',
-                'required' => false,
-                'description' => 'Enable test mode'
-            ]
+            'author' => 'Stijn Jakobs',
+            'website' => 'https://stijnjakobs.nl',
         ];
     }
 
@@ -77,8 +50,8 @@ class ResellerClub extends Server
 
     private function getApiEndpoint()
     {
-        return ExtensionHelper::getConfig('ResellerClub', 'test_mode') ? 
-            $this->testApiEndpoint : 
+        return ExtensionHelper::getConfig('ResellerClub', 'test_mode') ?
+            $this->testApiEndpoint :
             $this->apiEndpoint;
     }
 
@@ -86,6 +59,10 @@ class ResellerClub extends Server
     {
         $resellerId = ExtensionHelper::getConfig('ResellerClub', 'reseller_id');
         $apiKey = ExtensionHelper::getConfig('ResellerClub', 'api_key');
+
+        if (!$resellerId || !$apiKey) {
+            throw new \Exception('ResellerClub configuration is incomplete');
+        }
 
         $baseParams = [
             'auth-userid' => $resellerId,
@@ -95,16 +72,22 @@ class ResellerClub extends Server
         $params = array_merge($baseParams, $params);
         $url = $this->getApiEndpoint() . '/' . $endpoint;
 
+        if ($method === 'GET') {
+            $url .= '?' . http_build_query($params);
+        }
+
         try {
-            $response = Http::asForm()->$method($url, $params);
-            
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->$method($url, $params);
+
             if ($response->failed()) {
                 throw new \Exception($response->body());
             }
 
             return $response->json();
         } catch (\Exception $e) {
-            ExtensionHelper::error('ResellerClub', $e->getMessage());
+            ExtensionHelper::error('ResellerClub', 'API Error: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -112,18 +95,39 @@ class ResellerClub extends Server
     private function getAvailableTLDs()
     {
         try {
-            $response = $this->makeApiRequest('GET', 'domains/available-tlds.json');
-            
+            $response = $this->makeApiRequest('GET', 'domains/v5/tlds');
+
+            ExtensionHelper::log('ResellerClub', 'TLDs Response: ' . json_encode($response));
+
             $tlds = [];
-            foreach ($response as $tld) {
-                $tlds[] = [
-                    'name' => $tld['tld'],
-                    'value' => $tld['tld']
-                ];
+            if (isset($response['tlds']) && is_array($response['tlds'])) {
+                foreach ($response['tlds'] as $tld) {
+                    $tlds[] = [
+                        'name' => $tld,
+                        'value' => $tld
+                    ];
+                }
+            } else {
+                // Fallback TLDs if no results
+                $defaultTlds = ['.com', '.net', '.org', '.info', '.biz'];
+                foreach ($defaultTlds as $tld) {
+                    $tlds[] = [
+                        'name' => $tld,
+                        'value' => $tld
+                    ];
+                }
             }
+
             return $tlds;
         } catch (\Exception $e) {
-            return [];
+            ExtensionHelper::error('ResellerClub', 'Failed to get TLDs: ' . $e->getMessage());
+            return [
+                ['name' => '.com', 'value' => '.com'],
+                ['name' => '.net', 'value' => '.net'],
+                ['name' => '.org', 'value' => '.org'],
+                ['name' => '.info', 'value' => '.info'],
+                ['name' => '.biz', 'value' => '.biz']
+            ];
         }
     }
 
@@ -146,8 +150,8 @@ class ResellerClub extends Server
                 'admin-contact-id' => $customer['contact_id'],
                 'tech-contact-id' => $customer['contact_id'],
                 'billing-contact-id' => $customer['contact_id'],
-                'invoice-option' => 'NoInvoice', // Or handle invoicing as needed
-                'protect-privacy' => false // Add privacy protection if needed
+                'invoice-option' => 'NoInvoice',
+                'protect-privacy' => false
             ]);
 
             if (isset($domainResponse['entityid'])) {
@@ -195,7 +199,7 @@ class ResellerClub extends Server
                 'state' => $user->state ?? 'N/A',
                 'country' => $user->country ?? 'US',
                 'zipcode' => $user->zipcode ?? '00000',
-                'phone-cc' => '1', // Add proper phone country code handling
+                'phone-cc' => '1',
                 'phone' => $user->phone ?? '1234567890',
                 'lang-pref' => 'en'
             ]);
@@ -238,4 +242,4 @@ class ResellerClub extends Server
 
         throw new \Exception('No contact found for customer');
     }
-} 
+}

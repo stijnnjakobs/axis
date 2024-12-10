@@ -19,7 +19,8 @@
                                     <div class="toggle-expand-content">
                                         <ul class="nk-block-tools g-3">
                                             <li class="nk-block-tools-opt">
-                                                <a href="{{ route('clients.tickets.create') }}" class="btn btn-icon btn-primary">
+
+                                                <a href="{{ route('clients.tickets.create') }}" class="btn btn-primary">
                                                     <em class="icon ni ni-plus"></em>
                                                     <span>{{ __('Create Ticket') }}</span>
                                                 </a>
@@ -126,34 +127,7 @@
                         <div class="card card-bordered card-stretch">
                             <div class="card-inner-group">
                                 @if ($tickets->count() > 0)
-                                    <div class="card-inner position-relative card-tools-toggle">
-                                        <div class="card-title-group">
-                                            <div class="card-tools">
-                                                <div class="form-inline flex-nowrap gx-3">
-                                                    <div class="form-wrap w-150px">
-                                                        <select class="form-select js-select2" data-search="off" data-placeholder="Status">
-                                                            <option value="">{{ __('All Status') }}</option>
-                                                            <option value="open">{{ __('Open') }}</option>
-                                                            <option value="closed">{{ __('Closed') }}</option>
-                                                            <option value="on-hold">{{ __('On Hold') }}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-tools me-n1">
-                                                <ul class="btn-toolbar gx-1">
-                                                    <li>
-                                                        <div class="toggle-wrap">
-                                                            <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools">
-                                                                <em class="icon ni ni-menu-right"></em>
-                                                            </a>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
+
                                     <div class="card-inner p-0">
                                         <div class="nk-tb-list nk-tb-ulist">
                                             <div class="nk-tb-item nk-tb-head">

@@ -62,16 +62,20 @@
                         </div><!-- .nk-block-head-content -->
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
+                @if ($announcements->count() > 0)
+                @php
+                $latestAnnouncement = $announcements->sortByDesc('created_at')->first();
+                @endphp
                 <div class="nk-block">
                     <div class="nk-news card card-bordered">
                         <div class="card-inner">
                             <div class="nk-news-list">
-                                <a class="nk-news-item" href="#">
+                                <a class="nk-news-item" href="https://conxect.numblio.com/discord">
                                     <div class="nk-news-icon">
                                         <em class="icon ni ni-card-view"></em>
                                     </div>
                                     <div class="nk-news-text">
-                                        <p>Axis Update 2025? <span> A overview of our is now available on YouTube</span></p>
+                                        <p><b>{{ $latestAnnouncement->title }}</b><span> {{$latestAnnouncement->announcement}}</span></p>
                                         <em class="icon ni ni-external"></em>
                                     </div>
                                 </a>
@@ -79,6 +83,7 @@
                         </div>
                     </div><!-- .card -->
                 </div><!-- .nk-block -->
+                @endif
                 <div class="nk-block">
                     <div class="row gy-gs">
                         <div class="col-md-6 col-lg-4">
