@@ -1,4 +1,4 @@
-# Numblio Axis
+# Weblance Axis
 
 **Numblio Axis** is a powerful and user-friendly server management tool designed to simplify hosting for businesses and individuals. With Axis, you can manage your servers efficiently and effortlessly through an intuitive interface.
 
